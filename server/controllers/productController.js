@@ -1,9 +1,10 @@
 const path = require('path')
 const uuid = require('uuid')
 const Product = require('../models/product')
+const ApiError = require('../error/ApiError')
 
 class ProductController {
-  async create(req, res) {
+  async create(req, res, next) {
     try {
       const { name, price, categoryId, brandId } = req.body
       const { img } = req.files
@@ -18,7 +19,7 @@ class ProductController {
       })
       return res.json(product)
     } catch (err) {
-      console.log(err)
+        next(ApiError.badRequest(err.message))
     }  
   }
 
