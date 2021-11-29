@@ -8,7 +8,7 @@ class Admin {
   }
 
   setIsAuth(bool) {
-    this._isAuth = boolx
+    this._isAuth = bool
   }
 
   setAdmin(admin) {
