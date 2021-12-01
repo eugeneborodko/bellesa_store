@@ -36,6 +36,7 @@ class Product {
         img: 'https://images.unsplash.com/photo-1617289013503-56557cbc4d9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
       }
     ]
+    this._selectedCategory = ''
     makeAutoObservable(this)
   }
 
@@ -51,6 +52,10 @@ class Product {
     this._products = products
   }
 
+  setSelectedCategory(category) {
+    this._selectedCategory = category
+  }
+
   get categories() {
     return this._categories
   }
@@ -61,6 +66,10 @@ class Product {
 
   get products() {
     return this._products
+  }
+
+  get selectedCategory() {
+    return this._selectedCategory
   }
 }
 

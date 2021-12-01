@@ -1,9 +1,10 @@
 import Layout from "../components/Layout/Layout"
+import NavBar from "../components/NavBar/NavBar"
 
 const HomePage = () => {
   return (
     <Layout>
-      <h1>Home page</h1>
+      <NavBar />
     </Layout>
   )
 }
