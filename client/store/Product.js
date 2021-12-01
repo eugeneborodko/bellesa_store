@@ -37,6 +37,7 @@ class Product {
       }
     ]
     this._selectedCategory = ''
+    this._selectedBrand = ''
     makeAutoObservable(this)
   }
 
@@ -56,6 +57,10 @@ class Product {
     this._selectedCategory = category
   }
 
+  setSelectedBrand(brand) {
+    this._selectedBrand = brand
+  }
+
   get categories() {
     return this._categories
   }
@@ -70,6 +75,10 @@ class Product {
 
   get selectedCategory() {
     return this._selectedCategory
+  }
+
+  get selectedBrand() {
+    return this._selectedBrand
   }
 }
 

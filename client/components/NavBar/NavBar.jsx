@@ -11,7 +11,7 @@ const NavBar = observer(() => {
   }
 
   return (
-    <ul className={cl.nav}>
+    <ul>
       {product.categories.map(({ id, name }) => {
         const linkClass = [cl.link]
         if (name === product.selectedCategory) {
