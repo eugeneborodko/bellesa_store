@@ -34,6 +34,24 @@ class Product {
         name: 'Крем 2',
         price: 200,
         img: 'https://images.unsplash.com/photo-1617289013503-56557cbc4d9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
+      },
+      {
+        id: 3,
+        name: 'Крем 3',
+        price: 300,
+        img: 'https://images.unsplash.com/photo-1609195064085-c65e6aebda17?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
+      },
+      {
+        id: 4,
+        name: 'Крем 4',
+        price: 4200,
+        img: 'https://images.unsplash.com/photo-1617289013503-56557cbc4d9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
+      },
+      {
+        id: 5,
+        name: 'Крем 4',
+        price: 4200,
+        img: 'https://images.unsplash.com/photo-1617289013503-56557cbc4d9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
       }
     ]
     this._selectedCategory = ''

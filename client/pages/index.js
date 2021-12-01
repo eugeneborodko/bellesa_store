@@ -1,6 +1,7 @@
 import Layout from '../components/Layout/Layout'
 import NavBar from '../components/NavBar/NavBar'
 import BrandsBar from '../components/BrandsBar/BrandsBar'
+import ProductsList from '../components/ProductsList/ProductsList'
 
 const HomePage = () => {
   return (
@@ -8,7 +9,10 @@ const HomePage = () => {
       <div className="container">
         <div className="catalog">
           <NavBar />
-          <BrandsBar />
+          <div>
+            <BrandsBar />
+            <ProductsList />
+          </div>
         </div>
       </div>
     </Layout>
