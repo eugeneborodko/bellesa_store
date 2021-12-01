@@ -5,7 +5,7 @@ class Product {
     this._categories = [
       {
         id: 1,
-        name: 'Крема',
+        name: 'Крема'
       },
       {
         id: 2,

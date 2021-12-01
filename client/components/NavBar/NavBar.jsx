@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 import { Context } from '../../pages/_app'
@@ -20,13 +21,14 @@ const NavBar = observer(() => {
 
         return (
           <li key={id}>
-            <a
-              className={linkClass.join(' ')}
-              href="#"
-              onClick={() => handleClick(name)}
-            >
-              {name}
-            </a>
+            <Link href="#">
+              <a
+                className={linkClass.join(' ')}
+                onClick={() => handleClick(name)}
+              >
+                {name}
+              </a>
+            </Link>
           </li>
         )
       })}

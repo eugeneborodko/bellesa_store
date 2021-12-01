@@ -9,7 +9,7 @@ const HomePage = () => {
       <div className="container">
         <div className="catalog">
           <NavBar />
-          <div>
+          <div className="products">
             <BrandsBar />
             <ProductsList />
           </div>
