@@ -5,21 +5,25 @@ class Product {
     this._categories = [
       {
         id: 1,
-        name: 'Крема'
+        name: 'Крема',
+        value: 'cream'
       },
       {
         id: 2,
-        name: 'Шампуни'
+        name: 'Шампуни',
+        value: 'shampoos'
       }
     ]
     this._brands = [
       {
         id: 1,
         name: 'Бренд 1',
+        value: 'brand1',
       },
       {
         id: 2,
-        name: 'Бренд 2'
+        name: 'Бренд 2',
+        value: 'brand2'
       }
     ]
     this._products = [
