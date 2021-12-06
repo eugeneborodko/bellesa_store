@@ -1,6 +1,7 @@
 module.exports = {
   images: {
-    domains: ['images.unsplash.com'],
+    domains: ['localhost'],
     formats: ['image/avif', 'image/webp'],
   },
 }
+

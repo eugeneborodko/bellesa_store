@@ -2,62 +2,9 @@ import { makeAutoObservable } from 'mobx'
 
 class Product {
   constructor() {
-    this._categories = [
-      {
-        id: 1,
-        name: 'Крема',
-        value: 'cream'
-      },
-      {
-        id: 2,
-        name: 'Шампуни',
-        value: 'shampoos'
-      }
-    ]
-    this._brands = [
-      {
-        id: 1,
-        name: 'Бренд 1',
-        value: 'brand1',
-      },
-      {
-        id: 2,
-        name: 'Бренд 2',
-        value: 'brand2'
-      }
-    ]
-    this._products = [
-      {
-        id: 1,
-        name: 'Крем 1',
-        price: 100,
-        img: 'https://images.unsplash.com/photo-1609195064085-c65e6aebda17?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
-      },
-      {
-        id: 2,
-        name: 'Крем 2',
-        price: 200,
-        img: 'https://images.unsplash.com/photo-1617289013503-56557cbc4d9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
-      },
-      {
-        id: 3,
-        name: 'Крем 3',
-        price: 300,
-        img: 'https://images.unsplash.com/photo-1609195064085-c65e6aebda17?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
-      },
-      {
-        id: 4,
-        name: 'Крем 4',
-        price: 4200,
-        img: 'https://images.unsplash.com/photo-1617289013503-56557cbc4d9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
-      },
-      {
-        id: 5,
-        name: 'Крем 4',
-        price: 4200,
-        img: 'https://images.unsplash.com/photo-1617289013503-56557cbc4d9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'
-      }
-    ]
+    this._categories = []
+    this._brands = []
+    this._products = []
     this._selectedCategory = ''
     this._selectedBrand = ''
     makeAutoObservable(this)
