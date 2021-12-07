@@ -15,6 +15,7 @@ const HomePage = observer(() => {
     getBrands().then(res => product.setBrands(res))
     getProducts().then(res => product.setProducts(res))
   }, [])
+
   return (
     <Layout>
       <div className="container">

@@ -1,7 +1,9 @@
-import { memo } from 'react'
+import { useState, memo } from 'react'
+import { createCategory } from '../../http/productAPI'
 import cl from './CreateCategory.module.scss'
 
 const CreateCategory = ({ isVisible, setIsVisible }) => {
+  const [value, setValue] = useState('')
   const modalClass = [cl.modal]
 
   if (isVisible) {
@@ -12,14 +14,25 @@ const CreateCategory = ({ isVisible, setIsVisible }) => {
     setIsVisible(false)
   }
 
+  const handleOnChange = (event) => {
+    setValue(event.target.value)
+  }
+
+  const handleAddCategory = () => {
+    createCategory({name: value}).then(res => {
+      setValue('')
+      handleClose()
+    })
+  }
+
   return (
     <>
       <div className={modalClass.join(' ')}>
         <h1>Добавить категорию</h1>
         <form>
-          <input type="text" placeholder="Название категории" />
+          <input type="text" placeholder="Название категории" value={value} onChange={handleOnChange} />
         </form>
-        <button>Добавить</button>
+        <button onClick={handleAddCategory}>Добавить</button>
         <button onClick={handleClose}>Закрыть</button>
       </div>
     </>
