@@ -7,6 +7,9 @@ class Product {
     this._products = []
     this._selectedCategory = ''
     this._selectedBrand = ''
+    this._page = 1
+    this._totalCount = 0
+    this._limit = 1
     makeAutoObservable(this)
   }
 
@@ -23,11 +26,25 @@ class Product {
   }
 
   setSelectedCategory(category) {
+    this.setPage(1)
     this._selectedCategory = category
   }
 
   setSelectedBrand(brand) {
+    this.setPage(1)
     this._selectedBrand = brand
+  }
+
+  setPage(page) {
+    this._page = page
+  }
+
+  setTotalCount(totalCount) {
+    this._totalCount = totalCount
+  }
+
+  setLimit(limit) {
+    this._limit = limit
   }
 
   get categories() {
@@ -48,6 +65,18 @@ class Product {
 
   get selectedBrand() {
     return this._selectedBrand
+  }
+
+  get page() {
+    return this._page
+  }
+
+  get totalCount() {
+    return this._totalCount
+  }
+
+  get limit() {
+    return this._limit
   }
 }
 
