@@ -5,8 +5,8 @@ class Product {
     this._categories = []
     this._brands = []
     this._products = []
-    this._selectedCategory = ''
-    this._selectedBrand = ''
+    this._selectedCategory = null
+    this._selectedBrand = null
     this._page = 1
     this._totalCount = 0
     this._limit = 1

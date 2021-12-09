@@ -9,8 +9,6 @@ const CreateProduct = observer(({ isVisible, setIsVisible }) => {
   const [name, setName] = useState('')
   const [price, setPrice] = useState(0)
   const [file, setFile] = useState(null)
-  const [selectedCategory, setSelectedCategory] = useState('')
-  const [selectedBrand, setSelectedBrand] = useState('')
   const [info, setInfo] = useState([])
   const modalClass = [cl.modal]
 
@@ -44,11 +42,11 @@ const CreateProduct = observer(({ isVisible, setIsVisible }) => {
   }
 
   const handleChangeSelectedCategory = (event) => {
-    setSelectedCategory(event.target.value)
+    product.setSelectedCategory(event.target.value)
   }
 
   const handleChangeSelectedBrand = (event) => {
-    setSelectedBrand(event.target.value)
+    product.setSelectedBrand(event.target.value)
   }
 
   const handleChangeInfo = (key, value, number) => {
@@ -61,7 +59,9 @@ const CreateProduct = observer(({ isVisible, setIsVisible }) => {
     formData.append('price', `${price}`)
     formData.append('img', file)
     formData.append('info', JSON.stringify(info))
-    createProduct(formData).then(res => handleClose())
+    formData.append('categoryId', product.selectedCategory)
+    formData.append('brandId', product.selectedBrand)
+    createProduct(formData).then((res) => handleClose())
   }
 
   useEffect(() => {
@@ -76,12 +76,14 @@ const CreateProduct = observer(({ isVisible, setIsVisible }) => {
         <div>
           <select
             name="products"
-            value={selectedCategory}
             onChange={handleChangeSelectedCategory}
           >
             {product.categories.map(({ id, name }) => {
               return (
-                <option key={id} value={name}>
+                <option
+                  key={id}
+                  value={id}
+                >
                   {name}
                 </option>
               )
@@ -89,11 +91,10 @@ const CreateProduct = observer(({ isVisible, setIsVisible }) => {
           </select>
           <select
             name="brands"
-            value={selectedBrand}
             onChange={handleChangeSelectedBrand}
           >
             {product.brands.map(({ id, name }) => (
-              <option key={id} value={name}>
+              <option key={id} value={id}>
                 {name}
               </option>
             ))}

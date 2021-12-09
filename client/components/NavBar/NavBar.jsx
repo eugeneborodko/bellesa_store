@@ -7,28 +7,25 @@ import cl from './NavBar.module.scss'
 const NavBar = observer(() => {
   const { product } = useContext(Context)
 
-  const handleClick = (name) => {
-    product.setSelectedCategory(name)
+  const handleClick = (id) => {
+    product.setSelectedCategory(id)
   }
 
   return (
     <ul>
       {product.categories.map(({ id, name }) => {
         const linkClass = [cl.link]
-        if (name === product.selectedCategory) {
+        if (id === product.selectedCategory) {
           linkClass.push(cl.active)
         }
 
         return (
-          <li key={id}>
-            <Link href="#">
-              <a
-                className={linkClass.join(' ')}
-                onClick={() => handleClick(name)}
-              >
-                {name}
-              </a>
-            </Link>
+          <li
+            key={id}
+            className={linkClass.join(' ')}
+            onClick={() => handleClick(id)}
+          >
+            {name}
           </li>
         )
       })}

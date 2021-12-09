@@ -14,10 +14,6 @@ const HomePage = observer(() => {
   useEffect(() => {
     getCategory().then((res => product.setCategories(res)))
     getBrands().then(res => product.setBrands(res))
-    getProducts(null, null, 1, 2).then(res => {
-      product.setProducts(res)
-      product.setTotalCount(res.length)
-    })
   }, [])
 
   useEffect(() => {
@@ -25,7 +21,7 @@ const HomePage = observer(() => {
       product.setProducts(res)
       product.setTotalCount(res.length)
     })
-  }, [product.page, product.selectedCategory, product.selectedBrand, product.page])
+  }, [product.page, product.selectedCategory, product.selectedBrand])
 
   return (
     <Layout>
