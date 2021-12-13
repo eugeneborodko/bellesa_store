@@ -1,13 +1,11 @@
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { useContext, useEffect, useState } from 'react'
-import { Context } from '../_app'
+import { useEffect, useState } from 'react'
 import { PRODUCT_ROUTE } from '../../constants/routes'
 import Layout from '../../components/Layout/Layout'
 import { getOneProduct } from '../../http/productAPI'
 
 const Product = () => {
-  const { product } = useContext(Context)
   const router = useRouter()
   const { id } = router.query
   const [product, setProduct] = useState({ info: [] })

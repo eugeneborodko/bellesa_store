@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { useRouter } from 'next/router'
 import { observer } from 'mobx-react-lite'
 import { login } from '../../http/adminAPI'
 import { Context } from '../../pages/_app'
@@ -7,12 +8,14 @@ const Auth = observer(() => {
   const { admin } = useContext(Context)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const router = useRouter()
 
   const handleOnClick = async () => {
     try {
       const response = await login(email, password)
       admin.setAdmin(response)
       admin.setIsAuth(true)
+      router.push('/admin')
     } catch (err) {
       alert(err)
     }

@@ -16,11 +16,11 @@ class Admin {
   }
 
   get isAuth() {
-    return this.isAuth
+    return this._isAuth
   }
 
-  get user() {
-    return this.user
+  get admin() {
+    return this._admin
   }
 }
 

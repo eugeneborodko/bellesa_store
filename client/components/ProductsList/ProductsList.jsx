@@ -1,9 +1,10 @@
 import { useContext } from "react"
+import { observer } from "mobx-react-lite"
 import { Context } from "../../pages/_app"
 import ProductsItem from "./components/ProductsItem"
 import cl from './ProductsList.module.scss'
 
-const ProductsList = () => {
+const ProductsList = observer(() => {
   const { product } = useContext(Context)
 
   return (
@@ -15,6 +16,6 @@ const ProductsList = () => {
      })}
    </div>
   )
-}
+})
 
 export default ProductsList
