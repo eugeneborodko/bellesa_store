@@ -1,21 +1,24 @@
-import { createContext } from 'react'
+import { createContext, useState } from 'react'
 import Admin from '../store/Admin'
 import Product from '../store/Product'
 import ProductPrice from '../store/Price'
 import ProductCounter from '../store/Counter'
-import Basket from '../store/Basket'
+// import Basket from '../store/Basket'
 import '../styles/globals.scss'
 
 export const Context = createContext(null)
 
 const MyApp = ({ Component, pageProps }) => {
+  const [basket, setBasket] = useState([])
+
   return (
     <Context.Provider value={{
       admin: new Admin(),
       product: new Product(),
       productPrice: new ProductPrice(),
       productCounter: new ProductCounter(),
-      basket: new Basket(),
+      basket,
+      setBasket
     }}>
       <Component {...pageProps} />
     </Context.Provider>

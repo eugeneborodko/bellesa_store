@@ -11,7 +11,7 @@ import Pages from '../components/Pages/Pages'
 const HomePage = observer(() => {
   const { product } = useContext(Context)
 
-  useEffect(() => {
+  useEffect(() => { //TODO: save products amount after reloading index page
     getCategory().then((res => product.setCategories(res)))
     getBrands().then(res => product.setBrands(res))
   }, [])

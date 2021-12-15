@@ -9,10 +9,10 @@ import { observer } from 'mobx-react-lite'
 
 const Product = observer(() => {
   const router = useRouter()
-  const { productPrice, productCounter } = useContext(Context)
+  const { productPrice, productCounter, basket, setBasket } =
+    useContext(Context)
   const { id } = router.query
   const [product, setProduct] = useState({ info: [] })
-  const [myBasket, setMyBasket] = useState([])
 
   const productToBasket = {
     name: product.name,
@@ -21,20 +21,16 @@ const Product = observer(() => {
   }
 
   const handleAddToBasket = () => {
-    for (let i = 0; i < productCounter.counter; i++) {
-      setMyBasket((prev) => [...prev, productToBasket])
-    }
+    setBasket((prev) => [...prev, {...productToBasket, amount: productCounter.counter}])
   }
 
   const handleRemoveFromBasket = () => {
-    const filtered = myBasket.filter(
-      ({ name }) => productToBasket.name !== name
-    )
-    setMyBasket(filtered)
+    const filtered = basket.filter(({ name }) => productToBasket.name !== name)
+    setBasket(filtered)
   }
 
   const isProductInBasket = () => {
-    const filtered = myBasket.filter(
+    const filtered = basket.filter(
       ({ name }) => name === productToBasket.name
     )
     return !!filtered.length
@@ -42,7 +38,7 @@ const Product = observer(() => {
 
   useEffect(() => {
     const arr = localStorage.getItem('basket') || []
-    setMyBasket(JSON.parse(arr))
+    setBasket(JSON.parse(arr))
   }, [])
 
   useEffect(() => {
@@ -54,8 +50,8 @@ const Product = observer(() => {
   }, [product.price])
 
   useEffect(() => {
-    localStorage.setItem('basket', JSON.stringify(myBasket))
-  }, [myBasket])
+    localStorage.setItem('basket', JSON.stringify(basket))
+  }, [basket])
 
   return (
     <Layout>
@@ -70,7 +66,6 @@ const Product = observer(() => {
             />
             <div>{product.name}</div>
             <div>Цена: {product.price}</div>
-            {/* <button onClick={handleAddToBasket}>Добавить в корзину</button> */}
             {!isProductInBasket() ? (
               <button onClick={handleAddToBasket}>Добавить в корзину</button>
             ) : (
