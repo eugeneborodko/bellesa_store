@@ -1,35 +1,36 @@
-import { useState, useEffect, memo, useContext } from 'react'
+import { useEffect, memo, useContext } from 'react'
 import { Context } from '../../pages/_app'
+import { observer } from 'mobx-react-lite'
 
-const Counter = ({ price }) => {
-  const { productPrice } = useContext(Context)
-  const [counter, setCounter] = useState(1)
+const Counter = observer(({ price }) => {
+  const { productPrice, productCounter } = useContext(Context)
+  // const [counter, setCounter] = useState(1)
 
   const handleOnChange = (event) => {
-    setCounter(event.target.value)
+    productCounter.change(event.target.value)
   }
 
   const handleDecrease = () => {
-    if (counter > 1) {
-      setCounter((prev) => prev - 1)
+    if (productCounter.counter > 1) {
+      productCounter.decrease()
     }
   }
 
   const handleIncrease = () => {
-    setCounter((prev) => prev + 1)
+    productCounter.increase()
   }
 
   useEffect(() => {
-    productPrice.setPrice(price * counter)
-  }, [counter])
+    productPrice.setPrice(price * productCounter.counter)
+  }, [productCounter.counter])
 
   return (
     <div>
       <button onClick={handleDecrease}>minus</button>
-      <input type="number" value={counter} onChange={handleOnChange} />
+      <input type="number" value={productCounter.counter} onChange={handleOnChange} />
       <button onClick={handleIncrease}>plus</button>
     </div>
   )
-}
+})
 
 export default memo(Counter)
