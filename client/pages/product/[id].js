@@ -11,23 +11,33 @@ const Product = observer(() => {
   const router = useRouter()
   const { productPrice, productCounter } = useContext(Context)
   const { id } = router.query
-  console.log('bodyID', id)
   const [product, setProduct] = useState({ info: [] })
   const [myBasket, setMyBasket] = useState([])
 
-  const handleAddToBasket = () => {
-    const productToBasket = {
-      name: product.name,
-      price: product.price,
-      img: product.img,
-    }
+  const productToBasket = {
+    name: product.name,
+    price: product.price,
+    img: product.img,
+  }
 
+  const handleAddToBasket = () => {
     for (let i = 0; i < productCounter.counter; i++) {
-      setMyBasket((prev) => [
-        ...prev,
-        productToBasket,
-      ])
+      setMyBasket((prev) => [...prev, productToBasket])
     }
+  }
+
+  const handleRemoveFromBasket = () => {
+    const filtered = myBasket.filter(
+      ({ name }) => productToBasket.name !== name
+    )
+    setMyBasket(filtered)
+  }
+
+  const isProductInBasket = () => {
+    const filtered = myBasket.filter(
+      ({ name }) => name === productToBasket.name
+    )
+    return !!filtered.length
   }
 
   useEffect(() => {
@@ -60,7 +70,17 @@ const Product = observer(() => {
             />
             <div>{product.name}</div>
             <div>Цена: {product.price}</div>
-            <button onClick={handleAddToBasket}>Добавить в корзину</button>
+            {/* <button onClick={handleAddToBasket}>Добавить в корзину</button> */}
+            {!isProductInBasket() ? (
+              <button onClick={handleAddToBasket}>Добавить в корзину</button>
+            ) : (
+              <>
+                <h1>Товар в корзине</h1>
+                <button onClick={handleRemoveFromBasket}>
+                  Удалить из корзины
+                </button>
+              </>
+            )}
           </div>
           <div>
             {product.info.map(({ id, title, description }) => {
