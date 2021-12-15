@@ -11,6 +11,7 @@ const Product = observer(() => {
   const router = useRouter()
   const { productPrice, productCounter } = useContext(Context)
   const { id } = router.query
+  console.log('bodyID', id)
   const [product, setProduct] = useState({ info: [] })
   const [myBasket, setMyBasket] = useState([])
 
@@ -30,19 +31,19 @@ const Product = observer(() => {
   }
 
   useEffect(() => {
-    console.log('effect')
-    console.log('id: ', id)
     const arr = localStorage.getItem('basket') || []
     setMyBasket(JSON.parse(arr))
-    getOneProduct(id).then((res) => setProduct(res))
   }, [])
+
+  useEffect(() => {
+    getOneProduct(id).then((res) => setProduct(res))
+  }, [id])
 
   useEffect(() => {
     productPrice.setPrice(product.price)
   }, [product.price])
 
   useEffect(() => {
-    // getOneProduct(id).then((res) => setProduct(res))
     localStorage.setItem('basket', JSON.stringify(myBasket))
   }, [myBasket])
 
