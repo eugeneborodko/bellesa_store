@@ -2,6 +2,7 @@ import { useContext, useEffect } from 'react'
 import { Context } from './_app'
 import Layout from '../components/Layout/Layout'
 import ProductsItem from '../components/ProductsList/components/ProductsItem'
+import Form from '../components/Form/Form'
 
 const Basket = () => {
   const { basket, setBasket } = useContext(Context)
@@ -20,6 +21,9 @@ const Basket = () => {
           )
         })}
       </div>
+      {!!basket.length && (
+        <Form />
+      )}
     </Layout>
   )
 }

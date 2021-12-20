@@ -21,7 +21,8 @@ const Product = observer(() => {
   }
 
   const handleAddToBasket = () => {
-    setBasket((prev) => [...prev, {...productToBasket, amount: productCounter.counter}])
+    const url = `http://localhost:3000${router.asPath}`
+    setBasket((prev) => [...prev, {...productToBasket, amount: productCounter.counter, url}])
   }
 
   const handleRemoveFromBasket = () => {
