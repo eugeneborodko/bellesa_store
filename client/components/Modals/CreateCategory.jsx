@@ -19,10 +19,10 @@ const CreateCategory = ({ isVisible, setIsVisible }) => {
   }
 
   const handleAddCategory = () => {
-    createCategory({name: value}).then(res => {
-      setValue('')
-      handleClose()
-    })
+    const category = { name: value }
+    createCategory(category)
+    setValue('')
+    handleClose()
   }
 
   return (
@@ -30,7 +30,12 @@ const CreateCategory = ({ isVisible, setIsVisible }) => {
       <div className={modalClass.join(' ')}>
         <h1>Добавить категорию</h1>
         <form>
-          <input type="text" placeholder="Название категории" value={value} onChange={handleOnChange} />
+          <input
+            type="text"
+            placeholder="Название категории"
+            value={value}
+            onChange={handleOnChange}
+          />
         </form>
         <button onClick={handleAddCategory}>Добавить</button>
         <button onClick={handleClose}>Закрыть</button>

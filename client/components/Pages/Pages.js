@@ -5,7 +5,7 @@ import cl from './Pages.module.scss'
 
 const Pages = observer(() => {
   const { product } = useContext(Context)
-  const pagesCount = Math.ceil(product.totalCount / product.limit)
+  const pagesCount = Math.ceil(product.totalCount / product.limit) + 1
   const pages = []
 
   for (let i = 0; i < pagesCount; i++) {

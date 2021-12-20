@@ -19,10 +19,10 @@ const CreateBrand = ({ isVisible, setIsVisible }) => {
   }
 
   const handleAddBrand = () => {
-    createBrand({name: value}).then(res => {
-      setValue('')
-      handleClose()
-    })
+    const brand = {name: value}
+    createBrand(brand)
+    setValue('')
+    handleClose()
   }
 
   return (
@@ -30,7 +30,12 @@ const CreateBrand = ({ isVisible, setIsVisible }) => {
       <div className={modalClass.join(' ')}>
         <h1>Добавить бренд</h1>
         <form>
-          <input type="text" placeholder="Название бренда" value={value} onChange={handleOnChange} />
+          <input
+            type="text"
+            placeholder="Название бренда"
+            value={value}
+            onChange={handleOnChange}
+          />
         </form>
         <button onClick={handleAddBrand}>Добавить</button>
         <button onClick={handleClose}>Закрыть</button>

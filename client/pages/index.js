@@ -8,19 +8,24 @@ import BrandsBar from '../components/BrandsBar/BrandsBar'
 import ProductsList from '../components/ProductsList/ProductsList'
 import Pages from '../components/Pages/Pages'
 
-const HomePage = observer(() => {
+const HomePage = observer(({ categories, brands }) => {
   const { product } = useContext(Context)
 
-  useEffect(() => { //TODO: save products amount after reloading index page
-    getCategory().then((res => product.setCategories(res)))
-    getBrands().then(res => product.setBrands(res))
+  useEffect(() => {
+    //TODO: save products amount after reloading index page
+    product.setCategories(categories)
+    product.setBrands(brands)
   }, [])
 
-  useEffect(() => {
-    getProducts(product.selectedCategory, product.selectedBrand, product.page, 2).then(res => {
-      product.setProducts(res)
-      product.setTotalCount(res.length)
-    })
+  useEffect(async () => {
+    const products = await getProducts(
+      product.selectedCategory,
+      product.selectedBrand,
+      product.page,
+      product.limit
+    )
+    product.setProducts(products)
+    product.setTotalCount(products.length)
   }, [product.page, product.selectedCategory, product.selectedBrand])
 
   return (
@@ -38,5 +43,17 @@ const HomePage = observer(() => {
     </Layout>
   )
 })
+
+export const getStaticProps = async () => {
+  const categories = await getCategory()
+  const brands = await getBrands()
+
+  return {
+    props: {
+      categories,
+      brands,
+    },
+  }
+}
 
 export default HomePage

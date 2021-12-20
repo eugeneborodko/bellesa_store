@@ -53,7 +53,7 @@ const CreateProduct = observer(({ isVisible, setIsVisible }) => {
     setInfo(info.map((i) => (i.id === number ? { ...i, [key]: value } : i)))
   }
 
-  const handleAddProduct = () => {
+  const handleAddProduct = async () => {
     const formData = new FormData()
     formData.append('name', name)
     formData.append('price', `${price}`)
@@ -61,12 +61,15 @@ const CreateProduct = observer(({ isVisible, setIsVisible }) => {
     formData.append('info', JSON.stringify(info))
     formData.append('categoryId', product.selectedCategory)
     formData.append('brandId', product.selectedBrand)
-    createProduct(formData).then((res) => handleClose())
+    await createProduct(formData)
+    await handleClose()
   }
 
-  useEffect(() => {
-    getCategory().then((res) => product.setCategories(res))
-    getBrands().then((res) => product.setBrands(res))
+  useEffect(async () => {
+    const categories = await getCategory() 
+    product.setCategories(categories)
+    const brands = await getBrands()
+    product.setBrands(brands)
   }, [])
 
   return (

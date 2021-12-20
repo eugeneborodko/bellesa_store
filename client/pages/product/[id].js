@@ -42,8 +42,9 @@ const Product = observer(() => {
     setBasket(JSON.parse(arr))
   }, [])
 
-  useEffect(() => {
-    getOneProduct(id).then((res) => setProduct(res))
+  useEffect(async () => {
+    const oneProduct = await getOneProduct(id)
+    setProduct(oneProduct)
   }, [id])
 
   useEffect(() => {
