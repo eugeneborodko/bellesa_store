@@ -1,16 +1,18 @@
 import { useContext, useState } from 'react'
+import { phoneRegex, nameRegex } from '../../constants/regex'
+import { initialFormData, initialFormDataErrors } from '../../constants/formData'
 import { host } from '../../http'
 import { Context } from '../../pages/_app'
 
 const Form = () => {
-  const { basket } = useContext(Context)
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    note: '',
-  })
+  const { basket, setBasket } = useContext(Context)
+  const [formData, setFormData] = useState(initialFormData)
+  const [formDataErrors, setFormDataErrors] = useState(initialFormDataErrors)
 
   const { name, phone, note } = formData
+  const { nameError, phoneError } = formDataErrors
+
+  const isNote = note ? note : 'Отсутствует'
 
   const handleChangeName = (e) => {
     setFormData({ ...formData, name: e.target.value })
@@ -24,26 +26,61 @@ const Form = () => {
     setFormData({ ...formData, note: e.target.value })
   }
 
+  const handleClearBasket = () => {
+    setFormData(initialFormData)
+    setFormDataErrors(initialFormDataErrors)
+    setBasket([])
+    localStorage.setItem('basket', JSON.stringify([]))
+  }
+
+  const handleValidationCheck = () => {
+    const isName = nameRegex.test(name)
+    const isPhone = phoneRegex.test(phone)
+
+    const validName = !!name && isName
+    const invalidName = name ? 'Неверное имя' : 'Введите имя'
+    
+    const validPhone = !!phone && isPhone
+    const invalidPhone = phone ? 'Неверный телефон' : 'Введите телефон'
+    
+    const isValid = validName && validPhone
+
+    if (!isValid) {
+      setFormDataErrors({
+        ...formDataErrors,
+        nameError: validName ? '' : invalidName,
+        phoneError: validPhone ? '' : invalidPhone,
+      })
+    }
+
+    return isValid
+  }
+
   const handleMakeOrder = async () => {
-    const totalPrice = basket.reduce(
-      (acc, { price, amount }) => acc + price * amount,
-      0
-    )
+    if (handleValidationCheck()) {
+      const totalPrice = basket.reduce(
+        (acc, { price, amount }) => acc + price * amount,
+        0
+      )
 
-    const myProducts = basket
-    .map((product) => `${product.url}: Количество: ${product.amount}`)
-    .join('\n')
+      const productsList = basket
+        .map((product) => `${product.url}: Количество: ${product.amount}`)
+        .join('\n')
 
-    const message = `Новый заказ!\n\nИмя: ${name}\nТелефон: ${phone}\nПримечание: ${note}\n\nСписок товаров:\n ${myProducts}\n\nИтоговая цена: ${totalPrice} BYN`
+      const message = `Новый заказ!\n\nИмя: ${name}\nТелефон: ${phone}\nПримечание: ${isNote}\n\nСписок товаров:\n\n ${productsList}\n\nИтоговая цена: ${totalPrice} BYN`
 
-    const { data } = await host.post('api/bot', { message })
+      handleClearBasket()
 
-    return data
+      const { data } = await host.post('api/bot', { message })
+
+      return data
+    }
   }
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
       <div>
+        <div style={{ color: 'red' }}>{nameError}</div>
         <input
           type="text"
           placeholder="Ваше имя"
@@ -53,6 +90,7 @@ const Form = () => {
         />
       </div>
       <div>
+        <div style={{ color: 'red' }}>{phoneError}</div>
         <input
           type="text"
           placeholder="Ваш телефон"
