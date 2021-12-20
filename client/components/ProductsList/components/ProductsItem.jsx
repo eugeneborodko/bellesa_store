@@ -28,7 +28,7 @@ const ProductsItem = ({ product, removeProduct }) => {
       <Link href="/product/[id]" as={`${PRODUCT_ROUTE}/${id}`}>
         <a className={cl.item}>
           <Image
-            src={`http://localhost:5000/${img}`}
+            src={`${process.env.NEXT_PUBLIC_API_URL}${img}`}
             alt={name}
             width={182}
             height={182}

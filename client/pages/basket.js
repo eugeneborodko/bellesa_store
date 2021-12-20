@@ -13,7 +13,7 @@ const Basket = () => {
 
   return (
     <Layout>
-      <h1>Корзина пуста</h1>
+      <h1>Корзина</h1>
       <div>
         {basket.map((product) => {
           return (

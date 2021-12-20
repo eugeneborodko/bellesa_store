@@ -1,11 +1,11 @@
 import axios from 'axios'
 
 export const host = axios.create({
-  baseURL: 'http://localhost:5000/'
+  baseURL: process.env.NEXT_PUBLIC_API_URL
 })
 
 export const authHost = axios.create({
-  baseURL: 'http://localhost:5000/'
+  baseURL: process.env.NEXT_PUBLIC_API_URL
 })
 
 const authInterceptor = (config) => {

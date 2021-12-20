@@ -21,7 +21,8 @@ const Product = observer(() => {
   }
 
   const handleAddToBasket = () => {
-    const url = `http://localhost:3000${router.asPath}`
+    const url = `${process.env.NEXT_PUBLIC_DEV_URL}${router.asPath}`
+    console.log(url)
     setBasket((prev) => [...prev, {...productToBasket, amount: productCounter.counter, url}])
   }
 
@@ -61,7 +62,7 @@ const Product = observer(() => {
         <div style={{ display: 'flex' }}>
           <div>
             <Image
-              src={`http://localhost:5000/${product.img}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}${product.img}`}
               alt={product.name}
               width={182}
               height={182}
