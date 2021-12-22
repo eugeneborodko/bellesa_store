@@ -17,11 +17,8 @@ const ProductsItem = ({ product, removeProduct }) => {
     }
     const filtered = basket.filter(({ name }) => productToBasket.name !== name)
     setBasket(filtered)
+    localStorage.setItem('basket', JSON.stringify(filtered))
   }
-
-  useEffect(() => {
-    localStorage.setItem('basket', JSON.stringify(basket))
-  }, [basket])
 
   return (
     <>

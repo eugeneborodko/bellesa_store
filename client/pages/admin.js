@@ -1,16 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import CreateCategory from '../components/Modals/CreateCategory'
 import CreateBrand from '../components/Modals/CreateBrand'
 import CreateProduct from '../components/Modals/CreateProduct'
 import { observer } from 'mobx-react-lite'
+import { Context } from './_app'
+import { check } from '../http/adminAPI'
 
 const Admin = observer(() => {
   const router = useRouter()
+  const { admin } = useContext(Context)
   const [isCategoryVisible, setIsCategoryVisible] = useState(false)
   const [isBrandVisible, setIsBrandVisible] = useState(false)
   const [isProductVisible, setIsProductVisible] = useState(false)
-  const [auth, setAuth] = useState(false) // TODO: use admin.isAuth instead
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleCategoryClick = () => {
     setIsCategoryVisible(true)
@@ -25,16 +28,23 @@ const Admin = observer(() => {
   }
 
   useEffect(() => {
-    setAuth(window.localStorage.getItem('auth'));
-  }, []);
+    check().then(data => {
+      admin.setAdmin(true)
+      admin.setIsAuth(true)
+    }).catch(err => console.log(err)).finally(() => {
+      setIsLoading(false)
+    })
+  }, [admin])
 
-  useEffect(() => {
-    window.localStorage.setItem('auth', auth);
-  }, [auth]);
+  if (isLoading) {
+    return (
+      <h1>loading...</h1>
+    )
+  }
 
   return (
     <>
-      {auth ? (
+      {admin.isAuth ? (
         <>
           <h1>Admin page</h1>
           <div>

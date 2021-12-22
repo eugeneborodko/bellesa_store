@@ -22,7 +22,6 @@ const Product = observer(() => {
 
   const handleAddToBasket = () => {
     const url = `${process.env.NEXT_PUBLIC_DEV_URL}${router.asPath}`
-    console.log(url)
     setBasket((prev) => [...prev, {...productToBasket, amount: productCounter.counter, url}])
   }
 

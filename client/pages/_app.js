@@ -3,7 +3,6 @@ import Admin from '../store/Admin'
 import Product from '../store/Product'
 import ProductPrice from '../store/Price'
 import ProductCounter from '../store/Counter'
-// import Basket from '../store/Basket'
 import '../styles/globals.scss'
 
 export const Context = createContext(null)

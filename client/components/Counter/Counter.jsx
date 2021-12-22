@@ -4,7 +4,6 @@ import { observer } from 'mobx-react-lite'
 
 const Counter = observer(({ price }) => {
   const { productPrice, productCounter } = useContext(Context)
-  // const [counter, setCounter] = useState(1)
 
   const handleOnChange = (event) => {
     productCounter.change(event.target.value)

@@ -17,6 +17,8 @@ const HomePage = observer(({ categories, brands }) => {
     product.setBrands(brands)
   }, [])
 
+  
+
   useEffect(async () => {
     const products = await getProducts(
       product.selectedCategory,

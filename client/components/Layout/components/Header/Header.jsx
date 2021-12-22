@@ -1,14 +1,21 @@
 import Link from 'next/link'
-import { useContext } from 'react'
-import { Context } from '../../../../pages/_app'
+import { useEffect, useState } from 'react'
 
 const Header = () => {
-  const { basket } = useContext(Context)
+  const [basket, setBasket] = useState([])
 
   const productsInBasket = () => {
-    const productsAmount = basket.reduce((acc, { amount }) => acc + amount, 0)
-    return productsAmount
+    let amount = 0
+    if (!!basket.length) {
+      amount = basket.reduce((acc, { amount }) => acc + amount, 0)
+    }
+    
+    return amount
   }
+
+  useEffect(() => {
+    setBasket(JSON.parse(localStorage.getItem('basket')) || [])
+  }, [])
 
   return (
     <>
