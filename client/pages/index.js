@@ -3,21 +3,15 @@ import { observer } from 'mobx-react-lite'
 import { Context } from './_app'
 import { getBrands, getCategory, getProducts } from '../http/productAPI'
 import Layout from '../components/Layout/Layout'
-import NavBar from '../components/NavBar/NavBar'
-import BrandsBar from '../components/BrandsBar/BrandsBar'
-import ProductsList from '../components/ProductsList/ProductsList'
-import Pages from '../components/Pages/Pages'
+import Home from '../components/Home/Home'
 
 const HomePage = observer(({ categories, brands }) => {
   const { product } = useContext(Context)
 
   useEffect(() => {
-    //TODO: save products amount after reloading index page
     product.setCategories(categories)
     product.setBrands(brands)
   }, [])
-
-  
 
   useEffect(async () => {
     const products = await getProducts(
@@ -32,16 +26,7 @@ const HomePage = observer(({ categories, brands }) => {
 
   return (
     <Layout>
-      <div className="container">
-        <div className="catalog">
-          <NavBar />
-          <div className="products">
-            <BrandsBar />
-            <ProductsList />
-          </div>
-        </div>
-        <Pages />
-      </div>
+     <Home />
     </Layout>
   )
 })

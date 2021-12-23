@@ -4,11 +4,12 @@ import Layout from '../components/Layout/Layout'
 import ProductsItem from '../components/ProductsList/components/ProductsItem'
 import Form from '../components/Form/Form'
 
-const Basket = () => {
+const BasketPage = () => {
   const { basket, setBasket } = useContext(Context)
 
   useEffect(() => {
-    setBasket(JSON.parse(localStorage.getItem('basket')) || [])
+    const basketFromStorage = JSON.parse(localStorage.getItem('basket')) || []
+    setBasket(basketFromStorage)
   }, [])
 
   return (
@@ -17,7 +18,7 @@ const Basket = () => {
       <div>
         {basket.map((product) => {
           return (
-            <ProductsItem key={product.id} product={product} removeProduct />
+            <ProductsItem key={product.name} product={product} removeProduct />
           )
         })}
       </div>
@@ -28,4 +29,4 @@ const Basket = () => {
   )
 }
 
-export default Basket
+export default BasketPage

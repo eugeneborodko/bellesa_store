@@ -3,43 +3,50 @@ import { useRouter } from 'next/router'
 import CreateCategory from '../components/Modals/CreateCategory'
 import CreateBrand from '../components/Modals/CreateBrand'
 import CreateProduct from '../components/Modals/CreateProduct'
+import { createBrand, createCategory } from '../http/productAPI'
 import { observer } from 'mobx-react-lite'
 import { Context } from './_app'
 import { check } from '../http/adminAPI'
+import AdminModal from '../components/Modals/AdminModal'
 
 const Admin = observer(() => {
   const router = useRouter()
   const { admin } = useContext(Context)
-  const [isCategoryVisible, setIsCategoryVisible] = useState(false)
-  const [isBrandVisible, setIsBrandVisible] = useState(false)
-  const [isProductVisible, setIsProductVisible] = useState(false)
+
+  const [brandValue, setBrandValue] = useState('')
+  const [categoryValue, setCategoryValue] = useState('')
+
+  // const [isProductVisible, setIsProductVisible] = useState(false)
+
+  const [isVisible, setIsVisible] = useState({
+    isCategory: false,
+    isBrand: false,
+    isProduct: false,
+  })
   const [isLoading, setIsLoading] = useState(true)
 
-  const handleCategoryClick = () => {
-    setIsCategoryVisible(true)
-  }
+  const { isCategory, isBrand, isProduct } = isVisible
 
-  const handleBrandClick = () => {
-    setIsBrandVisible(true)
-  }
-
-  const handleProductClick = () => {
-    setIsProductVisible(true)
+  const handleClick = (key) => {
+    return () => {
+      setIsVisible({ ...isVisible, [key]: true })
+    }
   }
 
   useEffect(() => {
-    check().then(data => {
-      admin.setAdmin(true)
-      admin.setIsAuth(true)
-    }).catch(err => console.log(err)).finally(() => {
-      setIsLoading(false)
-    })
+    check()
+      .then((data) => {
+        admin.setAdmin(true)
+        admin.setIsAuth(true)
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false)
+      })
   }, [admin])
 
   if (isLoading) {
-    return (
-      <h1>loading...</h1>
-    )
+    return <h1>loading...</h1>
   }
 
   return (
@@ -48,29 +55,44 @@ const Admin = observer(() => {
         <>
           <h1>Admin page</h1>
           <div>
-            <button onClick={handleCategoryClick}>Добавить категорию</button>
+            <button onClick={handleClick('isCategory')}>
+              Добавить категорию
+            </button>
           </div>
           <div>
-            <button onClick={handleBrandClick}>Добавить бренд</button>
+            <button onClick={handleClick('isBrand')}>Добавить бренд</button>
           </div>
-          <div>
+          {/* <div>
             <button onClick={handleProductClick}>Добавить товар</button>
-          </div>
+          </div> */}
           <div>
             <button onClick={() => router.push('/')}>На главную</button>
           </div>
-          <CreateCategory
-            isVisible={isCategoryVisible}
-            setIsVisible={setIsCategoryVisible}
-          />
-          <CreateBrand
-            isVisible={isBrandVisible}
-            setIsVisible={setIsBrandVisible}
-          />
-          <CreateProduct
+          {/* <CreateProduct
             isVisible={isProductVisible}
             setIsVisible={setIsProductVisible}
-          />
+          /> */}
+          <AdminModal
+            isVisible={isCategory}
+            setIsVisible={setIsVisible}
+            title="category modal"
+            create={createCategory}
+            value={categoryValue}
+            setValue={setCategoryValue}
+          >
+            <CreateCategory value={categoryValue} setValue={setCategoryValue} />
+          </AdminModal>
+
+          <AdminModal
+            isVisible={isBrand}
+            setIsVisible={setIsVisible}
+            title="brand modal"
+            create={createBrand}
+            value={brandValue}
+            setValue={setBrandValue}
+          >
+            <CreateBrand value={brandValue} setValue={setBrandValue} />
+          </AdminModal>
         </>
       ) : (
         <>

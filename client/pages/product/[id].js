@@ -22,7 +22,10 @@ const Product = observer(() => {
 
   const handleAddToBasket = () => {
     const url = `${process.env.NEXT_PUBLIC_DEV_URL}${router.asPath}`
-    setBasket((prev) => [...prev, {...productToBasket, amount: productCounter.counter, url}])
+    setBasket((prev) => [
+      ...prev,
+      { ...productToBasket, amount: productCounter.counter, url },
+    ])
   }
 
   const handleRemoveFromBasket = () => {
@@ -31,9 +34,7 @@ const Product = observer(() => {
   }
 
   const isProductInBasket = () => {
-    const filtered = basket.filter(
-      ({ name }) => name === productToBasket.name
-    )
+    const filtered = basket.filter(({ name }) => name === productToBasket.name)
     return !!filtered.length
   }
 
@@ -57,40 +58,38 @@ const Product = observer(() => {
 
   return (
     <Layout>
-      <div className="container">
-        <div style={{ display: 'flex' }}>
-          <div>
-            <Image
-              src={`${process.env.NEXT_PUBLIC_API_URL}${product.img}`}
-              alt={product.name}
-              width={182}
-              height={182}
-            />
-            <div>{product.name}</div>
-            <div>Цена: {product.price}</div>
-            {!isProductInBasket() ? (
-              <button onClick={handleAddToBasket}>Добавить в корзину</button>
-            ) : (
-              <>
-                <h1>Товар в корзине</h1>
-                <button onClick={handleRemoveFromBasket}>
-                  Удалить из корзины
-                </button>
-              </>
-            )}
-          </div>
-          <div>
-            {product.info.map(({ id, title, description }) => {
-              return (
-                <div key={id}>
-                  {title}: {description}
-                </div>
-              )
-            })}
-          </div>
-          <Counter price={product.price} />
-          <div>Total price: {productPrice.price}</div>
+      <div style={{ display: 'flex' }}>
+        <div>
+          <Image
+            src={`${process.env.NEXT_PUBLIC_API_URL}${product.img}`}
+            alt={product.name}
+            width={182}
+            height={182}
+          />
+          <div>{product.name}</div>
+          <div>Цена: {product.price}</div>
+          {!isProductInBasket() ? (
+            <button onClick={handleAddToBasket}>Добавить в корзину</button>
+          ) : (
+            <>
+              <h1>Товар в корзине</h1>
+              <button onClick={handleRemoveFromBasket}>
+                Удалить из корзины
+              </button>
+            </>
+          )}
         </div>
+        <div>
+          {product.info.map(({ id, title, description }) => {
+            return (
+              <div key={id}>
+                {title}: {description}
+              </div>
+            )
+          })}
+        </div>
+        <Counter price={product.price} />
+        <div>Total price: {productPrice.price}</div>
       </div>
     </Layout>
   )
