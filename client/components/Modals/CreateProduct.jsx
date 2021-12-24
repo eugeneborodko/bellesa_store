@@ -1,44 +1,25 @@
-import { memo, useContext, useState, useEffect } from 'react'
+import { memo, useContext, useEffect } from 'react'
 import { Context } from '../../pages/_app'
-import { getCategory, getBrands, createProduct } from '../../http/productAPI'
-import cl from './CreateCategory.module.scss'
+import { getCategory, getBrands } from '../../http/productAPI'
 import { observer } from 'mobx-react-lite'
+import Select from './Select'
+import Input from './Input'
 
-const CreateProduct = observer(({ isVisible, setIsVisible }) => {
+const CreateProduct = observer(({ value, setValue }) => {
   const { product } = useContext(Context)
-  const [name, setName] = useState('')
-  const [price, setPrice] = useState(0)
-  const [file, setFile] = useState(null)
-  const [info, setInfo] = useState([])
-  const modalClass = [cl.modal]
 
-  if (isVisible) {
-    modalClass.push(cl.visible)
-  }
+  const { name, price, info } = value
 
-  const handleClose = () => {
-    setIsVisible(false)
-  }
-
-  const handleAddInfo = () => {
-    setInfo([...info, { title: '', description: '', id: Date.now() }])
-  }
-
-  const handleRemoveInfo = (num) => {
-    const filtered = info.filter(({ id }) => id !== num)
-    setInfo(filtered)
-  }
-
-  const handleSelectFile = (event) => {
-    setFile(event.target.files[0])
-  }
-
-  const handleChangeName = (event) => {
-    setName(event.target.value)
-  }
-
-  const handleChangePrice = (event) => {
-    setPrice(Number(event.target.value))
+  const handleChangeInput = (key) => {
+    return (e) => {
+      let options
+      if (key === 'file') {
+        options = { ...value, file: e.target.files[0] }
+      } else {
+        options = { ...value, [key]: e.target.value }
+      }
+      setValue(options)
+    }
   }
 
   const handleChangeSelectedCategory = (event) => {
@@ -49,116 +30,89 @@ const CreateProduct = observer(({ isVisible, setIsVisible }) => {
     product.setSelectedBrand(event.target.value)
   }
 
-  const handleChangeInfo = (key, value, number) => {
-    setInfo(info.map((i) => (i.id === number ? { ...i, [key]: value } : i)))
+  const handleAddInfo = () => {
+    const optionsInfo = [{ title: '', description: '', id: Date.now() }]
+    const options = { ...value, info: [...info, ...optionsInfo] }
+    setValue(options)
   }
 
-  const handleAddProduct = async () => {
-    const formData = new FormData()
-    formData.append('name', name)
-    formData.append('price', `${price}`)
-    formData.append('img', file)
-    formData.append('info', JSON.stringify(info))
-    formData.append('categoryId', product.selectedCategory)
-    formData.append('brandId', product.selectedBrand)
-    await createProduct(formData)
-    await handleClose()
+  const handleChangeInfo = (key, number) => {
+    return (e) => {
+      const optionsInfo = info.map((i) =>
+        i.id === number ? { ...i, [key]: e.target.value } : i
+      )
+      const options = { ...value, info: optionsInfo }
+      setValue(options)
+    }
+  }
+
+  const handleRemoveInfo = (num) => {
+    return () => {
+      const filtered = info.filter(({ id }) => id !== num)
+      const options = { ...value, info: filtered }
+      setValue(options)
+    }
   }
 
   useEffect(async () => {
-    const categories = await getCategory() 
-    product.setCategories(categories)
+    const categories = await getCategory()
     const brands = await getBrands()
+
+    product.setCategories(categories)
     product.setBrands(brands)
   }, [])
 
   return (
-    <>
-      <div className={modalClass.join(' ')}>
-        <h1>Добавить товар</h1>
+    <div>
+      <Select
+        name="categories"
+        onChange={handleChangeSelectedCategory}
+        options={product.categories}
+      />
+      <Select
+        name="brands"
+        onChange={handleChangeSelectedBrand}
+        options={product.brands}
+      />
+      <div>
+        <Input
+          type="text"
+          placeholder="Название товара"
+          value={name}
+          onChange={handleChangeInput('name')}
+        />
+        <Input
+          type="number"
+          placeholder="Цена товара"
+          value={price}
+          onChange={handleChangeInput('price')}
+        />
         <div>
-          <select
-            name="products"
-            onChange={handleChangeSelectedCategory}
-          >
-            {product.categories.map(({ id, name }) => {
-              return (
-                <option
-                  key={id}
-                  value={id}
-                >
-                  {name}
-                </option>
-              )
-            })}
-          </select>
-          <select
-            name="brands"
-            onChange={handleChangeSelectedBrand}
-          >
-            {product.brands.map(({ id, name }) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </select>
-          <div>
-            <div>
-              <input
-                type="text"
-                placeholder="Название товара"
-                value={name}
-                onChange={handleChangeName}
-              />
-            </div>
-            <div>
-              <input
-                type="number"
-                placeholder="Цена"
-                value={price}
-                onChange={handleChangePrice}
-              />
-            </div>
-            <div>
-              <input type="file" onChange={handleSelectFile} />
-            </div>
-          </div>
-          <hr />
-          <button onClick={handleAddInfo}>Добавить новое свойство</button>
-          {info.map((i) => {
-            return (
-              <div key={i.id}>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Название товара"
-                    value={i.title}
-                    onChange={(e) =>
-                      handleChangeInfo('title', e.target.value, i.id)
-                    }
-                  />
-                </div>
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Описание товара"
-                    value={i.description}
-                    onChange={(e) =>
-                      handleChangeInfo('description', e.target.value, i.id)
-                    }
-                  />
-                </div>
-                <div>
-                  <button onClick={() => handleRemoveInfo(id)}>Удалить</button>
-                </div>
-              </div>
-            )
-          })}
+          <input type="file" onChange={handleChangeInput('file')} />
         </div>
-        <button onClick={handleAddProduct}>Добавить</button>
-        <button onClick={handleClose}>Закрыть</button>
       </div>
-    </>
+      <hr />
+      <button onClick={handleAddInfo}>Добавить новое свойство</button>
+      {info.map((i) => {
+        return (
+          <div key={i.id}>
+            <Input
+              type="text"
+              placeholder="Название свойства"
+              value={i.title}
+              onChange={handleChangeInfo('title', i.id)}
+            />
+            <Input
+              type="text"
+              placeholder="Описание свойства"
+              value={i.description}
+              onChange={handleChangeInfo('description', i.id)}
+            />
+            <button onClick={handleRemoveInfo(i.id)}>Удалить</button>
+          </div>
+        )
+      })}
+    </div>
   )
 })
 

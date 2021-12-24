@@ -1,4 +1,12 @@
-import { memo } from 'react'
+import { memo, useContext } from 'react'
+import { Context } from '../../pages/_app'
+import { createProduct } from '../../http/productAPI'
+import {
+  CATEGORY_CREATED,
+  BRAND_CREATED,
+  PRODUCT_CREATED,
+  FILL_FIELDS,
+} from '../../constants/userMessages'
 import cl from './AdminModal.module.scss'
 
 const AdminModal = ({
@@ -9,7 +17,11 @@ const AdminModal = ({
   title,
   create,
   children,
+  categoryModal,
+  brandModal,
+  productModal,
 }) => {
+  const { product } = useContext(Context)
   const modalClass = [cl.modal]
 
   if (isVisible) {
@@ -27,22 +39,57 @@ const AdminModal = ({
   const createType = () => {
     const type = { name: value }
     create(type)
-
     setValue('')
     handleClose()
+
+    if (categoryModal) {
+      alert(CATEGORY_CREATED)
+    } else if (brandModal) {
+      alert(BRAND_CREATED)
+    }
+  }
+
+  const createNewProduct = async () => {
+    const { name, price, file, info } = value
+    const formData = new FormData()
+    formData.append('name', name)
+    formData.append('price', `${price}`)
+    formData.append('img', file)
+    formData.append('info', JSON.stringify(info))
+    formData.append('categoryId', product.selectedCategory)
+    formData.append('brandId', product.selectedBrand)
+    await createProduct(formData)
+    handleClose()
+    alert(PRODUCT_CREATED)
+  }
+
+  const handleCreateNewType = () => {
+    if (categoryModal || brandModal) {
+      if (value) {
+        createType()
+      } else {
+        alert(FILL_FIELDS)
+      }
+    } else if (productModal) {
+      const { name, price, file } = value
+      const isFormFilled = name && price > 0 && file
+      if (isFormFilled) {
+        createNewProduct()
+      } else {
+        alert(FILL_FIELDS)
+      }
+    }
   }
 
   return (
-    <>
-      <div className={modalClass.join(' ')}>
-        <h1>{title}</h1>
-        <form onSubmit={handleSubmit}>
-          {children}
-          <button onClick={createType}>Добавить</button>
-          <button onClick={handleClose}>Закрыть</button>
-        </form>
-      </div>
-    </>
+    <div className={modalClass.join(' ')}>
+      <h1>{title}</h1>
+      <form onSubmit={handleSubmit}>
+        {children}
+        <button onClick={handleCreateNewType}>Добавить</button>
+        <button onClick={handleClose}>Закрыть</button>
+      </form>
+    </div>
   )
 }
 

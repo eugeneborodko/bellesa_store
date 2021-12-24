@@ -1,22 +1,27 @@
 import { useState, useEffect, useContext } from 'react'
-import { useRouter } from 'next/router'
-import CreateCategory from '../components/Modals/CreateCategory'
-import CreateBrand from '../components/Modals/CreateBrand'
+import CreateType from '../components/Modals/CreateType'
 import CreateProduct from '../components/Modals/CreateProduct'
-import { createBrand, createCategory } from '../http/productAPI'
+import { createBrand, createCategory, createProduct } from '../http/productAPI'
 import { observer } from 'mobx-react-lite'
 import { Context } from './_app'
 import { check } from '../http/adminAPI'
 import AdminModal from '../components/Modals/AdminModal'
+import AdminPanel from '../components/AdminPanel/AdminPanel'
+import NoAccess from '../components/NoAccess/NoAccess'
+import Loader from '../components/Loader/Loader'
 
 const Admin = observer(() => {
-  const router = useRouter()
   const { admin } = useContext(Context)
 
   const [brandValue, setBrandValue] = useState('')
   const [categoryValue, setCategoryValue] = useState('')
 
-  // const [isProductVisible, setIsProductVisible] = useState(false)
+  const [productOptions, setProductOptions] = useState({
+    name: '',
+    price: 0,
+    file: null,
+    info: [],
+  })
 
   const [isVisible, setIsVisible] = useState({
     isCategory: false,
@@ -33,72 +38,74 @@ const Admin = observer(() => {
     }
   }
 
-  useEffect(() => {
-    check()
-      .then((data) => {
-        admin.setAdmin(true)
-        admin.setIsAuth(true)
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }, [admin])
+  useEffect(async () => {
+    try {
+      const adminData = await check()
+      admin.setAdmin(adminData)
+      admin.setIsAuth(true)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
 
   if (isLoading) {
-    return <h1>loading...</h1>
+    return <Loader />
   }
 
   return (
     <>
       {admin.isAuth ? (
         <>
-          <h1>Admin page</h1>
-          <div>
-            <button onClick={handleClick('isCategory')}>
-              Добавить категорию
-            </button>
-          </div>
-          <div>
-            <button onClick={handleClick('isBrand')}>Добавить бренд</button>
-          </div>
-          {/* <div>
-            <button onClick={handleProductClick}>Добавить товар</button>
-          </div> */}
-          <div>
-            <button onClick={() => router.push('/')}>На главную</button>
-          </div>
-          {/* <CreateProduct
-            isVisible={isProductVisible}
-            setIsVisible={setIsProductVisible}
-          /> */}
+          <AdminPanel handleClick={handleClick} />
           <AdminModal
             isVisible={isCategory}
             setIsVisible={setIsVisible}
-            title="category modal"
+            title="Добавить новую категорию"
             create={createCategory}
             value={categoryValue}
             setValue={setCategoryValue}
+            categoryModal
           >
-            <CreateCategory value={categoryValue} setValue={setCategoryValue} />
+            <CreateType
+              value={categoryValue}
+              setValue={setCategoryValue}
+              placeholder="категории"
+            />
           </AdminModal>
-
           <AdminModal
             isVisible={isBrand}
             setIsVisible={setIsVisible}
-            title="brand modal"
+            title="Добавить новый бренд"
             create={createBrand}
             value={brandValue}
             setValue={setBrandValue}
+            brandModal
           >
-            <CreateBrand value={brandValue} setValue={setBrandValue} />
+            <CreateType
+              value={brandValue}
+              setValue={setBrandValue}
+              placeholder="бренда"
+            />
+          </AdminModal>
+          <AdminModal
+            isVisible={isProduct}
+            setIsVisible={setIsVisible}
+            title="Добавить новый товар"
+            create={createProduct}
+            value={productOptions}
+            setValue={setProductOptions}
+            productModal
+          >
+            <CreateProduct
+              value={productOptions}
+              setValue={setProductOptions}
+            />
           </AdminModal>
         </>
       ) : (
-        <>
-          <h1>Нет доступа</h1>
-          <button onClick={() => router.push('/')}>На главную</button>
-        </>
+        <NoAccess />
       )}
     </>
   )

@@ -1,6 +1,6 @@
 import { memo } from 'react'
 
-const CreateBrand = ({ value, setValue }) => {
+const CreateType = ({ value, setValue, placeholder }) => {
   const handleChange = (e) => {
     setValue(e.target.value)
   }
@@ -8,11 +8,11 @@ const CreateBrand = ({ value, setValue }) => {
   return (
     <input
       type="text"
-      placeholder="Название бренда"
+      placeholder={`Название ${placeholder}`}
       value={value}
       onChange={handleChange}
     />
   )
 }
 
-export default memo(CreateBrand)
+export default memo(CreateType)
