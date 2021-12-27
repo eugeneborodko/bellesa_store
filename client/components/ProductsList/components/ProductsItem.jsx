@@ -27,11 +27,14 @@ const ProductsItem = ({ product, removeProduct }) => {
           <Image
             src={`${process.env.NEXT_PUBLIC_API_URL}${img}`}
             alt={name}
-            width={182}
-            height={182}
+            width={233}
+            height={233}
           />
-          <div>{name}</div>
-          <div>Цена: {price} BYN</div>
+          <div className={cl.info}>
+            <span className={cl.name}>{name}</span>
+            <span className={cl.price}>{price} BYN</span>
+          </div>
+          <button className={cl.button}>Подробнее</button>
         </a>
       </Link>
       {removeProduct && (

@@ -7,11 +7,13 @@ const NavBar = observer(() => {
   const { product } = useContext(Context)
 
   const handleClick = (id) => {
-    product.setSelectedCategory(id)
+    return () => {
+      product.setSelectedCategory(id)
+    }
   }
 
   return (
-    <ul>
+    <ul className={cl.navbar}>
       {product.categories.map(({ id, name }) => {
         const linkClass = [cl.link]
         if (id === product.selectedCategory) {
@@ -20,9 +22,9 @@ const NavBar = observer(() => {
 
         return (
           <li
-            key={id}
             className={linkClass.join(' ')}
-            onClick={() => handleClick(id)}
+            key={id}
+            onClick={handleClick(id)}
           >
             {name}
           </li>

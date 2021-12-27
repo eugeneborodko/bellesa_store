@@ -7,4 +7,9 @@
 .link {
   color: #ffffff;
   line-height: 35px;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #DC3850;
+  }
 }
