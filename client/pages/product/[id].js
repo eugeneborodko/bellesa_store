@@ -39,8 +39,8 @@ const Product = observer(() => {
   }
 
   useEffect(() => {
-    const arr = localStorage.getItem('basket') || []
-    setBasket(JSON.parse(arr))
+    const basketFromStorage = localStorage.getItem('basket') || []
+    setBasket(JSON.parse(basketFromStorage))
   }, [])
 
   useEffect(async () => {

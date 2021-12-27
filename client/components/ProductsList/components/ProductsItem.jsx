@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { PRODUCT_ROUTE } from '../../../constants/routes'
 import { Context } from '../../../pages/_app'
 import cl from './ProductsItem.module.scss'

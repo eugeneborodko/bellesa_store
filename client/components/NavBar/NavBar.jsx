@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { observer } from 'mobx-react-lite'
 import { useContext } from 'react'
 import { Context } from '../../pages/_app'
