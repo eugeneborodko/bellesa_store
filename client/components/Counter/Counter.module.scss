@@ -1,0 +1,29 @@
+.counter {
+  display: none;
+}
+
+.visible {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.button {
+  background: none;
+  border: none;
+  font-size: 35px;
+  cursor: pointer;
+
+  &:hover {
+    color: #dc3850;
+  }
+}
+
+.amount {
+  margin: 10px 20px 0 0;
+}
+
+.value {
+  margin: 0 10px;
+  font-size: 22px;
+}

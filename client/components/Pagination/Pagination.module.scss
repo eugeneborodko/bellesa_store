@@ -1,0 +1,24 @@
+.pagination {
+  margin: 15px 0 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.item {
+  margin-right: 1px;
+  padding: 5px 10px;
+  border: 1px solid #000000;
+  transition: color 0.3s, border 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    color: #dc3850;
+    border: 1px solid #dc3850;
+  }
+}
+
+.active {
+  color: #dc3850;
+  border: 1px solid #dc3850;
+}

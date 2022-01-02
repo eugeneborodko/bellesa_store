@@ -2,7 +2,7 @@
 import NavBar from '../NavBar/NavBar'
 import BrandsBar from '../BrandsBar/BrandsBar'
 import ProductsList from '../ProductsList/ProductsList'
-import Pages from '../Pages/Pages'
+import Pagination from '../Pagination/Pagination'
 
 const Home = () => {
   return (
@@ -11,10 +11,10 @@ const Home = () => {
         <NavBar />
         <div className="products">
           <BrandsBar />
-          <ProductsList />
+          <ProductsList mainPage />
         </div>
       </div>
-      <Pages />
+      <Pagination />
     </div>
   )
 }

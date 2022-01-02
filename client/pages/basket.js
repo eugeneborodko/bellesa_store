@@ -18,7 +18,7 @@ const BasketPage = () => {
       <div>
         {basket.map((product) => {
           return (
-            <ProductsItem key={product.name} product={product} removeProduct />
+            <ProductsItem key={product.name} product={product} basketPage/>
           )
         })}
       </div>
