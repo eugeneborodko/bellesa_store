@@ -4,11 +4,12 @@ import { getCategory, getBrands } from '../../http/productAPI'
 import { observer } from 'mobx-react-lite'
 import Select from './Select'
 import Input from './Input'
+import cl from './AdminModal.module.scss'
 
 const CreateProduct = observer(({ value, setValue }) => {
   const { product } = useContext(Context)
 
-  const { name, price, info } = value
+  const { name, price, info, file } = value
 
   const handleChangeInput = (key) => {
     return (e) => {
@@ -65,50 +66,69 @@ const CreateProduct = observer(({ value, setValue }) => {
   return (
     <div>
       <Select
+        className={cl.input}
         name="categories"
         onChange={handleChangeSelectedCategory}
         options={product.categories}
       />
       <Select
+        className={cl.input}
         name="brands"
         onChange={handleChangeSelectedBrand}
         options={product.brands}
       />
-      <div>
+      <div className={cl.inputs}>
         <Input
+          className={cl.input}
           type="text"
           placeholder="Название товара"
           value={name}
           onChange={handleChangeInput('name')}
         />
         <Input
+          className={cl.input}
           type="number"
           placeholder="Цена товара"
           value={price}
           onChange={handleChangeInput('price')}
         />
-        <div>
-          <input type="file" onChange={handleChangeInput('file')} />
-        </div>
+        <label className={cl.button} for="file">
+          Добавить фото
+        </label>
+        <input
+          className={cl.file}
+          id="file"
+          type="file"
+          onChange={handleChangeInput('file')}
+        />
+        {file?.name && <span className={cl.imgCaption}>Загружено изображение {file.name}</span>}
       </div>
-      <hr />
-      <button onClick={handleAddInfo}>Добавить новое свойство</button>
+      <button
+        className={`${cl.button} ${cl.buttonCenter}`}
+        onClick={handleAddInfo}
+      >
+        Добавить новое свойство
+      </button>
       {info.map((i) => {
         return (
-          <div key={i.id}>
+          <div className={cl.inputs} key={i.id}>
             <Input
+              className={cl.input}
               type="text"
               placeholder="Название свойства"
               value={i.title}
               onChange={handleChangeInfo('title', i.id)}
             />
             <Input
+              className={cl.input}
               type="text"
               placeholder="Описание свойства"
               value={i.description}
               onChange={handleChangeInfo('description', i.id)}
             />
-            <button onClick={handleRemoveInfo(i.id)}>Удалить</button>
+            <button className={cl.button} onClick={handleRemoveInfo(i.id)}>
+              Удалить
+            </button>
           </div>
         )
       })}

@@ -1,4 +1,5 @@
 import { memo } from 'react'
+import cl from './AdminModal.module.scss'
 
 const CreateType = ({ value, setValue, placeholder }) => {
   const handleChange = (e) => {
@@ -7,6 +8,7 @@ const CreateType = ({ value, setValue, placeholder }) => {
 
   return (
     <input
+      className={cl.input}
       type="text"
       placeholder={`Название ${placeholder}`}
       value={value}

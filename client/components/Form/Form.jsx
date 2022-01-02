@@ -1,8 +1,12 @@
 import { useContext, useState } from 'react'
-import { phoneRegex, nameRegex } from '../../constants/regex'
-import { initialFormData, initialFormDataErrors } from '../../constants/formData'
+import { phoneRegex } from '../../constants/regex'
+import {
+  initialFormData,
+  initialFormDataErrors,
+} from '../../constants/formData'
 import { host } from '../../http'
 import { Context } from '../../pages/_app'
+import cl from './Form.module.scss'
 
 const Form = () => {
   const { basket, setBasket } = useContext(Context)
@@ -34,15 +38,14 @@ const Form = () => {
   }
 
   const handleValidationCheck = () => {
-    const isName = nameRegex.test(name)
     const isPhone = phoneRegex.test(phone)
 
-    const validName = !!name && isName
+    const validName = !!name
     const invalidName = name ? 'Неверное имя' : 'Введите имя'
-    
+
     const validPhone = !!phone && isPhone
     const invalidPhone = phone ? 'Неверный телефон' : 'Введите телефон'
-    
+
     const isValid = validName && validPhone
 
     if (!isValid) {
@@ -71,6 +74,8 @@ const Form = () => {
 
       handleClearBasket()
 
+      alert('Заказ подтвержден!')
+
       const { data } = await host.post('api/bot', { message })
 
       return data
@@ -78,37 +83,45 @@ const Form = () => {
   }
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
-      <div>
-        <div style={{ color: 'red' }}>{nameError}</div>
-        <input
-          type="text"
-          placeholder="Ваше имя"
-          value={name}
-          onChange={handleChangeName}
-          required
-        />
-      </div>
-      <div>
-        <div style={{ color: 'red' }}>{phoneError}</div>
-        <input
-          type="text"
-          placeholder="Ваш телефон"
-          value={phone}
-          onChange={handleChangePhone}
-          required
-        />
-      </div>
-      <div>
-        <textarea
-          type="text"
-          placeholder="Примечание"
-          value={note}
-          onChange={handleChangeNote}
-        />
-      </div>
-      <button onClick={handleMakeOrder}>Заказать</button>
-    </form>
+    <>
+      <h1>Оформить заказ</h1>
+      <form className={cl.form} onSubmit={(e) => e.preventDefault()}>
+        <div>
+          <span className={cl.error}>{nameError}</span>
+          <input
+            className={cl.input}
+            type="text"
+            placeholder="Ваше имя"
+            value={name}
+            onChange={handleChangeName}
+            required
+          />
+        </div>
+        <div>
+          <span className={cl.error}>{phoneError}</span>
+          <input
+            className={cl.input}
+            type="text"
+            placeholder="Ваш телефон"
+            value={phone}
+            onChange={handleChangePhone}
+            required
+          />
+        </div>
+        <div>
+          <textarea
+            className={cl.input}
+            type="text"
+            placeholder="Примечание"
+            value={note}
+            onChange={handleChangeNote}
+          />
+        </div>
+        <button className={cl.button} onClick={handleMakeOrder}>
+          Подтвердить заказ
+        </button>
+      </form>
+    </>
   )
 }
 

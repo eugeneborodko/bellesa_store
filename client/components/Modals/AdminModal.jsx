@@ -83,11 +83,17 @@ const AdminModal = ({
 
   return (
     <div className={modalClass.join(' ')}>
-      <h1>{title}</h1>
-      <form onSubmit={handleSubmit}>
+      <h1 className={cl.title}>{title}</h1>
+      <form className={cl.form} onSubmit={handleSubmit}>
         {children}
-        <button onClick={handleCreateNewType}>Добавить</button>
-        <button onClick={handleClose}>Закрыть</button>
+        <div className={cl.buttons}>
+          <button className={`${cl.button} ${cl.actionButton}`} onClick={handleCreateNewType}>
+            Добавить
+          </button>
+          <button className={`${cl.button} ${cl.actionButton}`} onClick={handleClose}>
+            Закрыть
+          </button>
+        </div>
       </form>
     </div>
   )

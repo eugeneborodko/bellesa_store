@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { observer } from 'mobx-react-lite'
 import { login } from '../../http/adminAPI'
 import { Context } from '../../pages/_app'
+import cl from './Auth.module.scss'
 
 const Auth = observer(() => {
   const { admin } = useContext(Context)
@@ -30,9 +31,12 @@ const Auth = observer(() => {
   }
 
   return (
-    <>
+    <div className={cl.auth}>
+    <h1>Войти как администратор</h1>
+    <form onSubmit={(e) => e.preventDefault()} className={cl.form}>
       <div>
         <input
+          className={cl.input}
           type="email"
           placeholder="Email"
           value={email}
@@ -41,14 +45,16 @@ const Auth = observer(() => {
       </div>
       <div>
         <input
+          className={cl.input}
           type="password"
           placeholder="Пароль"
           value={password}
           onChange={handleChangePassword}
         />
       </div>
-      <button onClick={handleOnClick}>Войти</button>
-    </>
+      <button className={cl.button} onClick={handleOnClick}>Войти</button>
+    </form>
+    </div>
   )
 })
 

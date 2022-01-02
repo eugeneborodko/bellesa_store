@@ -5,7 +5,7 @@ import ProductsItem from '../components/ProductsList/components/ProductsItem'
 import Form from '../components/Form/Form'
 
 const BasketPage = () => {
-  const { basket, setBasket } = useContext(Context)
+  const { basket, setBasket, products } = useContext(Context)
 
   useEffect(() => {
     const basketFromStorage = JSON.parse(localStorage.getItem('basket')) || []
@@ -14,7 +14,11 @@ const BasketPage = () => {
 
   return (
     <Layout>
+      {!!basket.length ? (
       <h1>Корзина</h1>
+      ) : (
+        <h1>Корзина пуста</h1>
+      )}
       <div>
         {basket.map((product) => {
           return (

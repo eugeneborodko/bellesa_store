@@ -14,9 +14,6 @@ const HomePage = observer(({ categories, brands }) => {
   }, [])
 
   useEffect(async () => {
-    // if (!product.selectedCategory && !product.selectedBrand)
-    console.log('selectedCategory: ', product.selectedCategory)
-    console.log('selectedBrand: ', product.selectedBrand)
     const allProducts = await getAllProducts()
     const products = await getProducts(
       product.selectedCategory,
@@ -24,7 +21,6 @@ const HomePage = observer(({ categories, brands }) => {
       product.page,
       product.limit
     )
-    console.log('allProducts: ', allProducts)
     product.setProducts(products)
     product.setTotalCount(allProducts.length)
   }, [product.page, product.selectedCategory, product.selectedBrand])

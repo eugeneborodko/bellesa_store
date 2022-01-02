@@ -1,34 +1,8 @@
-.modal {
+.auth {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 20px;
-  display: none;
-  background-color: #ffffff;
-  border: 1px solid black;
-}
-
-.visible {
-  display: block;
-}
-
-.title {
-  text-align: center;
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.inputs {
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  transform: translate(-50%, -50%)
 }
 
 .form {
@@ -39,7 +13,7 @@
 }
 
 .input {
-  margin: 0 5px 5px;
+  margin-bottom: 5px;
   padding: 5px 10px;
   font-size: 16px;
   border-radius: 4px;
@@ -66,23 +40,4 @@
     background-color: #ffffff;
     border: 1px solid #000000;
   }
-
-  &Center {
-    margin: 20px auto 0;
-  }
-}
-
-.actionButton {
-  margin: 30px 10px;
-}
-
-.file {
-  display: none;
-}
-
-.imgCaption {
-  margin-top: 10px;
-  display: block;
-  text-align: center;
-  max-width: 280px;
 }

@@ -1,4 +1,4 @@
-const Input = ({ type, placeholder, value, onChange }) => {
+const Input = ({ type, placeholder, value, onChange, ...args }) => {
   return (
     <div>
       <input
@@ -6,6 +6,7 @@ const Input = ({ type, placeholder, value, onChange }) => {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        {...args}
       />
     </div>
   )
