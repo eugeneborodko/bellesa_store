@@ -9,6 +9,7 @@ const NavBar = observer(() => {
   const handleClick = (id) => {
     return () => {
       product.setSelectedCategory(id)
+      localStorage.setItem('category', id)
     }
   }
 
@@ -16,7 +17,11 @@ const NavBar = observer(() => {
     <ul className={cl.navbar}>
       {product.categories.map(({ id, name }) => {
         const linkClass = [cl.link]
-        if (id === product.selectedCategory) {
+        const isSelected =
+          id === product.selectedCategory ||
+          id === +localStorage.getItem('category')
+
+        if (isSelected) {
           linkClass.push(cl.active)
         }
 

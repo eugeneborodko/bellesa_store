@@ -7,19 +7,29 @@ const BrandsBar = observer(() => {
   const { product } = useContext(Context)
 
   const handleClick = (id) => {
-    product.setSelectedBrand(id)
+    return () => {
+      product.setSelectedBrand(id)
+      localStorage.setItem('brand', id)
+    }
   }
 
   return (
     <div className={cl.brandsList}>
       {product.brands.map(({ id, name }) => {
         const brandClass = [cl.brand]
-        if (id === product.selectedBrand) {
+        const isSelected =
+          id === product.selectedBrand || id === +localStorage.getItem('brand')
+
+        if (isSelected) {
           brandClass.push(cl.active)
         }
 
         return (
-          <div className={brandClass.join(' ')} key={id} onClick={() => handleClick(id)}>
+          <div
+            className={brandClass.join(' ')}
+            key={id}
+            onClick={handleClick(id)}
+          >
             {name}
           </div>
         )

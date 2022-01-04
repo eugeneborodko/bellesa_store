@@ -6,9 +6,6 @@ import cl from './Pagination.module.scss'
 const Pagination = observer(() => {
   const { product } = useContext(Context)
   const pagesCount = Math.ceil(product.totalCount / product.limit)
-  console.log('pagesCount: ', pagesCount)
-  console.log('totalCount: ', product.totalCount)
-  console.log('product.limit: ', product.limit)
   const pages = []
 
   for (let i = 0; i < pagesCount; i++) {
