@@ -4,13 +4,14 @@ import { Context } from './_app'
 import { getBrands, getCategory, getAllProducts, getProducts } from '../http/productAPI'
 import Layout from '../components/Layout/Layout'
 import Home from '../components/Home/Home'
+import { host } from '../http/index'
 
 const HomePage = observer(({ categories, brands }) => {
   const { product } = useContext(Context)
 
   const fetchProducts = async () => {
     const category = +localStorage.getItem('category') || product.selectedCategory
-    const brand = +localStorage.getItem('brand') || product.selectedBrand
+    const brand = product.selectedBrand
 
     const allProducts = await getAllProducts()
     const products = await getProducts(
@@ -19,6 +20,15 @@ const HomePage = observer(({ categories, brands }) => {
       product.page,
       product.limit
     )
+
+    // const myProducts = await getProducts(
+    //   category,
+    //   brand,
+    //   product.page,
+    //   product.limit
+    // )
+
+    //   console.log('myProducts', myProducts)
 
     product.setProducts(products)
     product.setTotalCount(allProducts.length)

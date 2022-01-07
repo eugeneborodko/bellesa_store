@@ -1,39 +1,19 @@
 import { observer } from 'mobx-react-lite'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Context } from '../../pages/_app'
+import BrandItem from './components/BrandItem/BrandItem'
 import cl from './BrandsBar.module.scss'
 
 const BrandsBar = observer(() => {
   const { product } = useContext(Context)
 
-  const handleClick = (id) => {
-    return () => {
-      product.setSelectedBrand(id)
-      localStorage.setItem('brand', id)
-    }
-  }
+  const [result, setResult] = useState([])
 
   return (
     <div className={cl.brandsList}>
-      {product.brands.map(({ id, name }) => {
-        const brandClass = [cl.brand]
-        const isSelected =
-          id === product.selectedBrand || id === +localStorage.getItem('brand')
-
-        if (isSelected) {
-          brandClass.push(cl.active)
-        }
-
-        return (
-          <div
-            className={brandClass.join(' ')}
-            key={id}
-            onClick={handleClick(id)}
-          >
-            {name}
-          </div>
-        )
-      })}
+      {product.brands.map(({ id, name }) => (
+        <BrandItem id={id} name={name} result={result} setResult={setResult} />
+      ))}
     </div>
   )
 })

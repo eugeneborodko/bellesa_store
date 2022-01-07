@@ -42,6 +42,18 @@ export const getProducts = async (categoryId, brandId, page, limit) => {
   return data
 }
 
+// export const getTestProducts = async (categoryId, brandsArray, page, limit) => {
+//   const { data } = await host.get('api/product', {
+//     params: {
+//       categoryId,
+//       brandId,
+//       page, 
+//       limit
+//     }
+//   })
+//   return data
+// }
+
 export const getOneProduct = async (id) => {
   const { data } = await host.get(`api/product/${id}`)
   return data
