@@ -36,11 +36,15 @@ class ProductController {
   }
 
   async getAll(req, res) {
-    let { brandId, categoryId, limit, page } = req.query
-    limit = limit || 9
+    let { brandId, categoryId, brands, limit, page } = req.query
+
+    limit = limit || 21
     page = page || 1
+
     let offset = page * limit - limit
-    let products
+    let products = []
+    let productsWithBrands = []
+
     if (!brandId && !categoryId) {
       products = await Product.findAll({limit, offset})
     }
@@ -53,6 +57,19 @@ class ProductController {
     if (brandId && categoryId) {
       products = await Product.findAll({where:{brandId, categoryId}, limit, offset})
     }
+
+    if (brands) {
+      const brandsList = [...JSON.parse(brands)]
+        products.filter((product) => {
+          brandsList.forEach((brand) => {
+            if (product.brandId === brand) {
+              productsWithBrands.push(product)
+            }
+          })
+      })
+      return res.json(productsWithBrands)
+    }
+    
     return res.json(products)
   }
 
